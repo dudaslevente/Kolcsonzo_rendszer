@@ -28,5 +28,27 @@ router.get('/reg', (req, res) => {
     });
 });
 
+router.get('/targy', (req, res) => {
+    ejs.renderFile('./views/targyak.ejs', { session: req.session }, (err, html)=>{
+        if (err){
+            console.log(err);
+            return
+        }
+        req.session.msg = '';
+        res.send(html);
+    });
+});
+
+router.get('/newtargy', (req, res) => {
+    ejs.renderFile('./views/newtargyak.ejs', { session: req.session }, (err, html)=>{
+        if (err){
+            console.log(err);
+            return
+        }
+        req.session.msg = '';
+        res.send(html);
+    });
+});
+
 
 module.exports = router;

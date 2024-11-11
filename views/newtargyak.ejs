@@ -1,0 +1,28 @@
+<%- include('header') %>
+
+<h4 class="mb-3">Új adat felvétele</h4>
+
+<%- include('message') %>
+
+<form action="/newtargyak" method="post">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="title" placeholder="">
+        <label for="title">Cím</label>
+    </div>
+    <div class="btn-group">  
+        <select class="form-select" id="type" aria-label="Default select example">
+            <option value="könyv">Könyv</option>
+            <option value="film">Film</option>
+        </select>
+    </div>
+    <div class="btn-group">  
+        <select class="form-select" id="available" aria-label="Default select example">
+            <option value="igen">Igen</option>
+            <option value="nem">Nem</option>
+        </select>
+    </div>
+
+    <input class="btn btn-primary mb-3" type="submit" value="Felvétel" name="felveszBtn">
+</form>
+
+<%- include('footer') %>
