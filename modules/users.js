@@ -91,7 +91,7 @@ router.post('/login',(req , res)=>{
         req.session.userRole = results[0].role;
 
         console.log(req.session);
-        if(userRole =='user'){
+        if(req.session.userRole =='user'){
             res.redirect('/targyak');
         }
         else{
