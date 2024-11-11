@@ -7,7 +7,7 @@ const router = express.Router();
 const passwdRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
 router.post('/reg',(req , res)=>{
-    console.log("dudas ");
+    
     let { name, email, passwd, confirm } = req.body;
     if (!name || !email || !passwd || !confirm) {
         req.session.msg = 'Missing data!';
@@ -30,6 +30,7 @@ router.post('/reg',(req , res)=>{
 
     db.query(`SELECT * FROM users WHERE email=?`, [email], (err, results)=>{
         if (err){
+            console.error('Database query error:', err);
             req.session.msg = 'This e-mail already registered!';
             req.session.severity = 'danger';
             res.redirect('/reg');
@@ -41,7 +42,7 @@ router.post('/reg',(req , res)=>{
         db.query(`INSERT INTO users (user_id, name, email, passwd ,membership_date , role) VALUES(?, ?, ?, SHA1(?), ?,'user')`, 
             [uuid.v4(), name, email, passwd ,membershipDate ], (err, results)=>{
             if (err){
-                
+                console.error('Database query error:', err);
                 req.session.msg = 'Database error!';
                 req.session.severity = 'danger';
                 res.redirect('/reg');
@@ -90,7 +91,13 @@ router.post('/login',(req , res)=>{
         req.session.userRole = results[0].role;
 
         console.log(req.session);
-        res.redirect('/targyak');
+        if(userRole =='user'){
+            res.redirect('/targyak');
+        }
+        else{
+            res.redirect('/newtargyak');
+        }
+        
         return
     });
 
