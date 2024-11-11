@@ -17,4 +17,16 @@ router.get('/', (req, res) => {
 });
 
 
+router.get('/reg', (req, res) => {
+    ejs.renderFile('./views/regist.ejs', { session: req.session }, (err, html)=>{
+        if (err){
+            console.log(err);
+            return
+        }
+        req.session.msg = '';
+        res.send(html);
+    });
+});
+
+
 module.exports = router;
