@@ -67,7 +67,7 @@ router.post('/login',(req , res)=>{
         res.redirect('/');
         return
     }
-    db.query(`SELECT * FROM users WHERE email=? AND passwd=?`, [email, CryptoJS.SHA1(passwd).toString()], (err, results)=>{
+    db.query(`SELECT * FROM users WHERE email=? AND passwd=? AND role =?`, [email, CryptoJS.SHA1(passwd).toString(), role], (err, results)=>{
         if (err){
             req.session.msg = 'Database error!';
             req.session.severity = 'danger';
