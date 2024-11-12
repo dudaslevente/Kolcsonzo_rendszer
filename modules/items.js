@@ -38,3 +38,5 @@ router.get('/itemdatas', (req, res) => {
  
 
 });
+
+module.exports = router;

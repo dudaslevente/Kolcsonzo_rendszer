@@ -1,42 +1,29 @@
 <%- include('header') %>
 
-<h4 class="mb-3">Kölcsönözhető tárgyak</h4>
+<h4 class="mb-3">Statistics</h4>
 
 <%- include('message') %>
 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active m-1" aria-current="page" href="#">Table</a>
+    </li>
+</ul>
+
+
 <form action="/targyak" method="post">
-    <table class="table table-striped table-hover">
+    <table class="table">
         <thead>
-            <tr>
-                <th>#</th>
-                <th>Cím</th>
-                <th>Tipus</th>
-                <th>Elérhető-e</th>
-                <th>Műveletek</th>
-            </tr>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Cím</th>
+            <th scope="col">Tipus</th>
+            <th scope="col">Elérhető-e</th>
+          </tr>
         </thead>
         <tbody id="hely">
-            <%
-                total = 0;
-                results.forEach((item, index) => { %>
-                <tr>
-                    <td><%= index+1 %>.</td>
-                    <td><%= item.title %></td>
-                    <td><%= item.type %></td>
-                    <td><%= item.available %></td>
-                    <td><a href="/delete/<%= item.id %>" class="btn btn-danger btn-sm">Töröl</a>
-                </tr>
-            <% 
-                total += item.mennyiseg * item.nettoar
-        }) %>
-        
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="5" class="text-end">Összesen: <strong><%= total %></strong> db</td>
-            </tr>
-        </tfoot>
-    </table>
+      </table>
 </form>
 
 <script>
@@ -45,7 +32,7 @@
     });
 
     function TablazatToltes() {
-        fetch('http://localhost:3000/items/targyak')
+        fetch('http://localhost:3000/targyak')
             .then(response => response.json())
             .then(data => {
                 let tbody = document.querySelector('#hely');
@@ -53,14 +40,19 @@
                     let tr = document.createElement('tr');
                     let td1 = document.createElement('td');
                     let td2 = document.createElement('td');
-                    td1.innerHTML =  items.title;
+                    let td3 = document.createElement('td');
+                    let td4 = document.createElement('td');
+                    td1.innerHTML =  index + 1;
+                    td2.innerHTML = items.title;
                     td2.innerHTML = items.type;
+                    td2.innerHTML = items.available;
                     tr.appendChild(td1);
                     tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
                     tbody.appendChild(tr);
                 });
             })
-            .catch(error => console.error('Error fetching step data:', error));
     }
 </script>
 
