@@ -4,26 +4,30 @@
 
 <%- include('message') %>
 
-<form action="/newtargyak" method="post">
+<form action="/items/newtargyak" method="post">
+    <!-- Title input -->
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" name="title" placeholder="">
+        <input type="text" class="form-control" name="title" placeholder="Cím">
         <label for="title">Cím</label>
     </div>
-    <label for="">Tárgy tipusa:</label>
+
+    <label for="type">Tárgy típusa:</label>
     <div class="btn-group m-2"> 
-        <select class="form-select" id="type" aria-label="Default select example">
+        <select class="form-select" name="type" id="type" aria-label="Default select example">
             <option value="könyv">Könyv</option>
             <option value="film">Film</option>
         </select>
     </div>
 
-    <label for="">Elérhető-e:</label>
+    <label for="available">Elérhető-e:</label>
     <div class="btn-group m-2">  
-        <select class="form-select" id="available" aria-label="Default select example">
+        <select class="form-select" name="available" id="available" aria-label="Default select example">
             <option value="1">Igen</option>
             <option value="0">Nem</option>
         </select>
     </div>
+
+    <!-- Submit button -->
     <input class="btn btn-primary" type="submit" value="Felvétel" name="felveszBtn">
 </form>
 
