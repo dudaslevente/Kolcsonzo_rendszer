@@ -103,10 +103,10 @@ router.post('/login', (req, res) => {
 
            
             if (req.session.userRole === 'user') {
-                res.redirect('/users/targyak');
+                res.redirect('/targyak');
             } 
             else if (req.session.userRole === 'admin') {
-                res.redirect('/users/newtargyak');
+                res.redirect('/newtargyak');
             }
         }
     );

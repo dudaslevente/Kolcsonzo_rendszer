@@ -53,7 +53,7 @@ router.get('/logout', (req, res)=>{
 });
 
 
-router.get('/targy', (req, res) => {
+router.get('/targyak', (req, res) => {
     ejs.renderFile('./views/targyak.ejs', { session: req.session }, (err, html)=>{
         if (err){
             console.log(err);
@@ -64,7 +64,7 @@ router.get('/targy', (req, res) => {
     });
 });
 
-router.get('/newtargy', (req, res) => {
+router.get('/newtargyak', (req, res) => {
     ejs.renderFile('./views/newtargyak.ejs', { session: req.session }, (err, html)=>{
         if (err){
             console.log(err);
