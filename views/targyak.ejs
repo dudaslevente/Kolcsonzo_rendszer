@@ -1,12 +1,12 @@
 <%- include('header') %>
 
-<h4 class="mb-3">Statistics</h4>
+<h4 class="mb-3">Tárgyak</h4>
 
 <%- include('message') %>
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active m-1" aria-current="page" href="#">Table</a>
+      <a class="nav-link active" aria-current="page" href="#">Table</a>
     </li>
 </ul>
 
@@ -19,41 +19,29 @@
             <th scope="col">Cím</th>
             <th scope="col">Tipus</th>
             <th scope="col">Elérhető-e</th>
+            <th scope="col">Műveletek</th>
           </tr>
         </thead>
         <tbody id="hely">
+          <% results.forEach((item, index) => { %>
+            <tr>
+                <td><%= (index+1)%>.</td>
+                <td><%= item.title %></td> 
+                <td><%= item.type %></td> 
+                <td><%= item.available %></td>
+                <td>
+                  <form action="/kolcsonzes" method="post">
+                    <button type="submit" class="btn btn-primary">Kölcsönzés</button>
+                    <form action="/visszahozas" method="POST">
+                      <button type="submit" class="btn btn-warning">Visszahozás</button>
+                    </form>
+                  </form>
+                  
+                </td>
+            </tr>
+          <% }); %>
         </tbody>
       </table>
 </form>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        TablazatToltes();
-    });
-
-    function TablazatToltes() {
-        fetch('http://localhost:3000/targyak')
-            .then(response => response.json())
-            .then(data => {
-                let tbody = document.querySelector('#hely');
-                data.forEach(items => {
-                    let tr = document.createElement('tr');
-                    let td1 = document.createElement('td');
-                    let td2 = document.createElement('td');
-                    let td3 = document.createElement('td');
-                    let td4 = document.createElement('td');
-                    td1.innerHTML =  index + 1;
-                    td2.innerHTML = items.title;
-                    td2.innerHTML = items.type;
-                    td2.innerHTML = items.available;
-                    tr.appendChild(td1);
-                    tr.appendChild(td2);
-                    tr.appendChild(td3);
-                    tr.appendChild(td4);
-                    tbody.appendChild(tr);
-                });
-            })
-    }
-</script>
 
 <%- include('footer') %>

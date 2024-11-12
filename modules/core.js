@@ -54,14 +54,29 @@ router.get('/logout', (req, res)=>{
 
 
 router.get('/targyak', (req, res) => {
-    ejs.renderFile('./views/targyak.ejs', { session: req.session }, (err, html)=>{
-        if (err){
-            console.log(err);
-            return
-        }
-        req.session.msg = '';
-        res.send(html);
-    });
+    if (req.session.isLoggedIn) {
+        db.query(`SELECT * FROM items`,(err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            results.forEach(item => {
+                item.title = item.title
+                item.available = item.available
+                item.item_id = item.item_id
+            });
+ 
+            ejs.renderFile('./views/targyak.ejs', { session: req.session, results }, (err, html) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                req.session.msg = '';
+                res.send(html);
+            });
+        });
+        return;
+    }
 });
 
 router.get('/newtargyak', (req, res) => {
