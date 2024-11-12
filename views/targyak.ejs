@@ -4,12 +4,6 @@
 
 <%- include('message') %>
 
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" aria-current="page" href="#">Table</a>
-    </li>
-</ul>
-
 
 <form action="/targyak" method="post">
     <table class="table">
@@ -22,7 +16,7 @@
             <th scope="col">Műveletek</th>
           </tr>
         </thead>
-        <tbody id="hely">
+        <tbody>
           <% results.forEach((item, index) => { %>
             <tr>
                 <td><%= (index+1)%>.</td>
@@ -36,7 +30,6 @@
                       <button type="submit" class="btn btn-warning">Visszahozás</button>
                     </form>
                   </form>
-                  
                 </td>
             </tr>
           <% }); %>

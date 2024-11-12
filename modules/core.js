@@ -90,5 +90,33 @@ router.get('/newtargyak', (req, res) => {
     });
 });
 
+router.get('/allUser', (req, res) => {
+    if (req.session.isLoggedIn) {
+        db.query(`SELECT * FROM users`,(err, results) => {
+            //const membership_date = moment().format('YYYY-MM-DD');
+            if (err) {
+                console.log(err);
+                return;
+            }
+            results.forEach(user => {
+                user.name = user.name
+                user.email = user.email
+                user.role = user.role
+                user.membership_date = moment().format('YYYY-MM-DD')
+            });
+ 
+            ejs.renderFile('./views/allUser.ejs', { session: req.session, results }, (err, html)=>{
+                if (err){
+                    console.log(err);
+                    return
+                }
+                req.session.msg = '';
+                res.send(html);
+            });
+        });
+        return;
+    }
+});
+
 
 module.exports = router;

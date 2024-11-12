@@ -1,0 +1,32 @@
+<%- include('header') %>
+
+<h4 class="mb-3">Felhasználók</h4>
+
+<%- include('message') %>
+
+<form action="/allUser" method="post">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Név</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Membership date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.forEach((user, index) => { %>
+            <tr>
+                <td><%= (index + 1) %></td>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.role %></td>
+                <td><%= user.membership_date %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+</form>
+
+<%- include('footer') %>
