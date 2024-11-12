@@ -66,11 +66,11 @@ router.post('/login', (req, res) => {
         res.redirect('/');
         return;
     }
-    const role = req.body.role || 'user';
+    
 
     db.query(
-        `SELECT * FROM users WHERE email=? AND passwd=? AND role=?`,
-        [email, CryptoJS.SHA1(passwd).toString(), role],
+        `SELECT * FROM users WHERE email=? AND passwd=?`,
+        [email, CryptoJS.SHA1(passwd).toString()],
         (err, results) => {
             if (err) {
                 req.session.msg = 'Database error!';
@@ -103,9 +103,10 @@ router.post('/login', (req, res) => {
 
            
             if (req.session.userRole === 'user') {
-                res.redirect('/targyak');
-            } else {
-                res.redirect('/newtargyak');
+                res.redirect('/users/targyak');
+            } 
+            else if (req.session.userRole === 'admin') {
+                res.redirect('/users/newtargyak');
             }
         }
     );
