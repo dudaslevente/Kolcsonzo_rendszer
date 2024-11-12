@@ -57,49 +57,58 @@ router.post('/reg',(req , res)=>{
         
     });
 })
-
-router.post('/login',(req , res)=>{
+router.post('/login', (req, res) => {
     let { email, passwd } = req.body;
 
     if (!email || !passwd) {
         req.session.msg = 'Missing data!';
         req.session.severity = 'danger';
         res.redirect('/');
-        return
+        return;
     }
-    db.query(`SELECT * FROM users WHERE email=? AND passwd=?`, [email, CryptoJS.SHA1(passwd).toString()], (err, results)=>{
-        if (err){
-            req.session.msg = 'Database error!';
-            req.session.severity = 'danger';
-            res.redirect('/');
-            return
-        }
-        if (results == 0){
-            req.session.msg = 'Invalid credentials!';
-            req.session.severity = 'danger';
-            res.redirect('/');  
-            return
-        }
-        req.session.msg = 'You are logged in!';
-        req.session.severity = 'info';
+    const role = req.body.role || 'user';
 
-        req.session.isLoggedIn = true;
-        req.session.userID = results[0].user_id;
-        req.session.userName = results[0].name;
-        req.session.userEmail = results[0].email;
-        req.session.userMembershipD = results[0].membership_date;
-        req.session.userRole = results[0].role;
+    db.query(
+        `SELECT * FROM users WHERE email=? AND passwd=? AND role=?`,
+        [email, CryptoJS.SHA1(passwd).toString(), role],
+        (err, results) => {
+            if (err) {
+                req.session.msg = 'Database error!';
+                req.session.severity = 'danger';
+                res.redirect('/');
+                return;
+            }
 
-        console.log(req.session);
-        if(req.session.userRole =='user'){
-            res.redirect('/targyak');
-        }
-        else{
-            res.redirect('/newtargyak');
-        }
-        
-        return
-    });
+            if (results.length === 0) {
+                req.session.msg = 'Invalid credentials!';
+                req.session.severity = 'danger';
+                res.redirect('/');
+                return;
+            }
 
-})
+            
+            req.session.msg = 'You are logged in!';
+            req.session.severity = 'info';
+            req.session.isLoggedIn = true;
+            req.session.userID = results[0].user_id;
+            req.session.userName = results[0].name;
+            req.session.userEmail = results[0].email;
+
+            
+            req.session.userMembershipD = new Date(results[0].membership_date).toISOString().split('T')[0];
+
+            req.session.userRole = results[0].role;
+
+            console.log(req.session);
+
+           
+            if (req.session.userRole === 'user') {
+                res.redirect('/targyak');
+            } else {
+                res.redirect('/newtargyak');
+            }
+        }
+    );
+});
+
 module.exports = router;

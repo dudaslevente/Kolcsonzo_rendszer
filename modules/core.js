@@ -38,6 +38,21 @@ router.get('/reg', (req, res) => {
     });
 });
 
+
+router.get('/logout', (req, res)=>{
+
+    req.session.isLoggedIn = false;
+    req.session.userID = null;
+    req.session.userName = null;
+    req.session.userEmail = null;
+    req.session.userRole = null;
+    req.session.msg = 'You are logged out!';
+    req.session.severity = 'info';
+    res.redirect('/');
+
+});
+
+
 router.get('/targy', (req, res) => {
     ejs.renderFile('./views/targyak.ejs', { session: req.session }, (err, html)=>{
         if (err){
