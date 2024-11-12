@@ -55,16 +55,18 @@ router.get('/logout', (req, res)=>{
 
 router.get('/targyak', (req, res) => {
     if (req.session.isLoggedIn) {
-        db.query(`SELECT * FROM items`,(err, results) => {
+        db.query(`SELECT * FROM items WHERE available = 1`,(err, results) => {
             if (err) {
                 console.log(err);
                 return;
             }
+            
             results.forEach(item => {
                 item.title = item.title
-                item.available = item.available
+                item.available = "elérhető"
                 item.item_id = item.item_id
-            });
+            })
+            
  
             ejs.renderFile('./views/targyak.ejs', { session: req.session, results }, (err, html) => {
                 if (err) {
@@ -93,11 +95,10 @@ router.get('/newtargyak', (req, res) => {
 router.get('/allUser', (req, res) => {
     if (req.session.isLoggedIn) {
         db.query(`SELECT * FROM users`,(err, results) => {
-            //const membership_date = moment().format('YYYY-MM-DD');
             if (err) {
                 console.log(err);
                 return;
-            }
+            }  
             results.forEach(user => {
                 user.name = user.name
                 user.email = user.email

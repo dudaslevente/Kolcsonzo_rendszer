@@ -22,7 +22,7 @@
                 <td><%= (index+1)%>.</td>
                 <td><%= item.title %></td> 
                 <td><%= item.type %></td> 
-                <td><%= item.available %></td>
+                <td><%= item.available ? 'Igen' : 'Nem' %></td>
                 <td>
                   <form action="/kolcsonzes" method="post">
                     <button type="submit" class="btn btn-primary">Kölcsönzés</button>
