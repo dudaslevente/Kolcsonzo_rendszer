@@ -67,7 +67,7 @@ router.post('/login',(req , res)=>{
         res.redirect('/');
         return
     }
-    db.query(`SELECT * FROM users WHERE email=? AND passwd=? AND role =?`, [email, CryptoJS.SHA1(passwd).toString(), role], (err, results)=>{
+    db.query(`SELECT * FROM users WHERE email=? AND passwd=?`, [email, CryptoJS.SHA1(passwd).toString(), role], (err, results)=>{
         if (err){
             req.session.msg = 'Database error!';
             req.session.severity = 'danger';
@@ -84,10 +84,10 @@ router.post('/login',(req , res)=>{
         req.session.severity = 'info';
 
         req.session.isLoggedIn = true;
-        req.session.userID = results[0].ID;
+        req.session.userID = results[0].user_id;
         req.session.userName = results[0].name;
         req.session.userEmail = results[0].email;
-        req.session.userMembershipD = results[0].membershipD;
+        req.session.userMembershipD = results[0].membership_date;
         req.session.userRole = results[0].role;
 
         console.log(req.session);
