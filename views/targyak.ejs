@@ -45,16 +45,16 @@
     });
 
     function TablazatToltes() {
-        fetch('http://localhost:3000/items/itemdatas')
+        fetch('http://localhost:3000/items/targyak')
             .then(response => response.json())
             .then(data => {
                 let tbody = document.querySelector('#hely');
-                data.forEach(steps => {
+                data.forEach(items => {
                     let tr = document.createElement('tr');
                     let td1 = document.createElement('td');
                     let td2 = document.createElement('td');
-                    td1.innerHTML =  steps.date;
-                    td2.innerHTML = steps.count;
+                    td1.innerHTML =  items.title;
+                    td2.innerHTML = items.type;
                     tr.appendChild(td1);
                     tr.appendChild(td2);
                     tbody.appendChild(tr);
