@@ -121,22 +121,25 @@ router.get('/allUser', (req, res) => {
 
 router.get('/rentals', (req, res) => {
     if (req.session.isLoggedIn) {
-        db.query(`SELECT title FROM items`,(err, results) => {
+        db.query(`SELECT item_id, title FROM items` ,(err, items) => {
             if (err) {
                 console.log(err);
                 return;
             }
+         
             if (req.session.isLoggedIn) {
-                db.query(`SELECT rental_date, return_date FROM rentals`,(err, results) => {
+                db.query(`SELECT item_id, rental_date, return_date FROM rentals`,(err, results) => {
                     if (err) {
                         console.log(err);
                         return;
                     }  
+                  
                     results.forEach(rentals => {
-                        rentals.title = rentals.title
+                        rentals.itemname = items.find(item =>item.item_id == rentals.item_id).title
                         rentals.rental_date = moment(rentals.rental_date).format('YYYY-MM-DD')
                         rentals.return_date = moment(rentals.return_date).format('YYYY-MM-DD')
                     });
+                    console.log(results)
 
                     ejs.renderFile('./views/rentals.ejs', { session: req.session, results }, (err, html)=>{
                         if (err){
