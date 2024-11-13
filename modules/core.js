@@ -103,7 +103,7 @@ router.get('/allUser', (req, res) => {
                 user.name = user.name
                 user.email = user.email
                 user.role = user.role
-                user.membership_date = moment().format('YYYY-MM-DD')
+                user.membership_date = moment(user.membership_date).format('YYYY-MM-DD');
             });
  
             ejs.renderFile('./views/allUser.ejs', { session: req.session, results }, (err, html)=>{
@@ -114,6 +114,41 @@ router.get('/allUser', (req, res) => {
                 req.session.msg = '';
                 res.send(html);
             });
+        });
+        return;
+    }
+});
+
+router.get('/rentals', (req, res) => {
+    if (req.session.isLoggedIn) {
+        db.query(`SELECT title FROM items`,(err, results) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            if (req.session.isLoggedIn) {
+                db.query(`SELECT rental_date, return_date FROM rentals`,(err, results) => {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }  
+                    results.forEach(rentals => {
+                        rentals.title = rentals.title
+                        rentals.rental_date = moment(rentals.rental_date).format('YYYY-MM-DD')
+                        rentals.return_date = moment(rentals.return_date).format('YYYY-MM-DD')
+                    });
+
+                    ejs.renderFile('./views/rentals.ejs', { session: req.session, results }, (err, html)=>{
+                        if (err){
+                            console.log(err);
+                            return
+                        }
+                        req.session.msg = '';
+                        res.send(html);
+                    });
+                });
+                return;
+            }
         });
         return;
     }

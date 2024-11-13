@@ -1,0 +1,29 @@
+<%- include('header') %>
+
+<h4 class="mb-3">Tárgyak</h4>
+
+<%- include('message') %>
+
+
+<form action="/rentals" method="post">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Kölcsönzes dátuma</th>
+            <th scope="col">Tárgy neve</th>
+            <th scope="col">Visszahozás dátuma</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% results.forEach((item, index) => { %>
+            <tr>
+                <td><%= item.title %></td>
+                <td><%= item.rental_date %></td> 
+                <td><%= item.return_date %></td> 
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+</form>
+
+<%- include('footer') %>
